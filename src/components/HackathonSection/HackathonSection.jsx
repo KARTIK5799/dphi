@@ -13,6 +13,7 @@ const HackathonSection = () => {
           endDate={hackathon.endDate}
           image={hackathon.image}
           difficulty={hackathon.difficulty}
+          id={hackathon.id}
         />
       ))}
     </section>

@@ -7,8 +7,8 @@ import HackathonSection from "../../components/HackathonSection/HackathonSection
 
 const HackathonPage = () => {
   return (
-    <div className="">
-      <HeroSection />
+    <div className="hackathon-page">
+      <HeroSection/>
       <FeatureSection />
       <Participate />
       <FilterSection />

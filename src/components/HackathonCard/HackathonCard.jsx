@@ -1,7 +1,10 @@
 import React from 'react';
 import Timer from "../Timer/Timer";
+import { useNavigate } from 'react-router-dom';
 
-const HackathonCard = ({ title, startDate, endDate, image, difficulty }) => {
+const HackathonCard = ({ title, startDate, endDate, image, difficulty, id }) => {
+  let navigate = useNavigate();
+
   const statusColors = {
     upcoming: "bg-yellow-200",
     active: "bg-green-300 text-green-800",
@@ -30,6 +33,10 @@ const HackathonCard = ({ title, startDate, endDate, image, difficulty }) => {
 
   const status = getStatus();
 
+  const handleChallengeDetailPage = () => {
+    navigate(`/detail/${id}`);
+  };
+
   return (
     <div className="w-[352px] h-[473px] bg-white text-black flex flex-col rounded-2xl overflow-hidden shadow-lg">
       <div className="h-[40%] flex items-center justify-center">
@@ -42,9 +49,8 @@ const HackathonCard = ({ title, startDate, endDate, image, difficulty }) => {
         <h2 className="text-lg font-bold text-center max-w-64">
           {title}
         </h2>
-    
         <Timer startDate={startDate} endDate={endDate} />
-        <button className="bg-[#44924C] flex justify-center items-center gap-2 w-[70%] py-2 rounded-lg text-white">
+        <button onClick={handleChallengeDetailPage} className="bg-[#44924C] flex justify-center items-center gap-2 w-[70%] py-2 rounded-lg text-white">
           <span className="material-symbols-outlined">task_alt</span>
           Participate Now
         </button>

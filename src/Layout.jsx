@@ -1,16 +1,15 @@
-import Navbar from './components/Navbar/Navbar'
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
 
-// eslint-disable-next-line react/prop-types
-const Layout = ({children}) => {
+const Layout = () => {
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <main>
-      {children}
+        <Outlet />
       </main>
-    
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

@@ -1,26 +1,51 @@
 import heroImage from '../../assets/hero.svg';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const HeroSection = () => {
+const HeroSection = ({ isDetail, challengeData={} }) => {
+  const navigate=useNavigate();
+  const handleCreateChallengeClick=()=>{
+    navigate('/create')
+  }
   return (
-    <section className="h-[80vh] w-screen bg-[#003145] text-white flex justify-center items-center p-6">
+    <section className={`${!isDetail ? "h-[80vh]" : "h-[50vh]"} w-screen bg-[#003145] text-white flex justify-center items-center p-6`}>
+
       <div className="flex flex-col-reverse md:flex-row items-center max-w-6xl w-full">
-        
-    
+
         <div className="flex-[6] text-center md:text-left space-y-6">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight px-10 ml-[-2.2rem] border-l-4 border-yellow-500">
-            Accelerate Innovation with Global AI Challenges
+          {isDetail && (
+            <div className="w-full md:w-[29rem] bg-[#FFCE5C] text-black py-2 px-4 flex items-center gap-2 rounded-lg md:rounded-lg mt-4 md:mt-0">
+              <span className="material-symbols-outlined">schedule</span>
+              <p>Starts on {new Date(challengeData.startDate).toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })} (India Standard Time)</p>
+            </div>
+          )}
+          <h1
+            className={`leading-tight  ${!isDetail ? "md:ml-[-1rem]  px-5 border-l-4 mr-8  text-2xl md:text-4xl lg:text-5xl font-bold" : "text-3xl "
+              } border-yellow-500`}
+          >
+            {!isDetail  ? " Accelerate Innovation with Global AI Challenges" : challengeData.title}
           </h1>
-          <p className="text-lg md:text-xl  leading-relaxed">
-            AI Challenges at DPhi simulate real-world problems. It is a great place to put your AI/Data Science skills to test on diverse datasets, allowing you to foster learning through competitions.
+
+          <p className="text-sm md:text-lg leading-relaxed">
+            {isDetail
+              ? "AI Challenges at DPhi simulate real-world problems. It is a great place to put your AI/Data Science skills to test on diverse datasets, allowing you to foster learning through competitions."
+              : "Identify the class to which each butterfly belongs."
+            }
           </p>
-          <button className="px-6 py-3 bg-[#fff] text-black font-semibold rounded-md hover:bg-[#fbbf24] transition">
-            Create Challenge
-          </button>
+
+          {!isDetail ? (
+            <button onClick={handleCreateChallengeClick}  className="px-4 text-[#003145] py-2 bg-white text-text-[#003145] font-semibold rounded-md hover:bg-yellow-400 transition">
+              Create Challenge
+            </button>
+          ) : (
+            <div className="bg-white text-[#003145] max-w-[6rem] flex justify-center items-center px-6 py-2 rounded">
+              <span className="material-symbols-outlined">signal_cellular_alt</span> {challengeData.difficulty.charAt(0).toUpperCase() + challengeData.difficulty.slice(1)}
+            </div>
+          )}
         </div>
 
-     
         <div className="flex-[4] mt-8 md:mt-0 md:ml-8">
-          <img src={heroImage} alt="Hero" className="w-full h-auto" />
+          {!isDetail && <img src={challengeData.image || heroImage} alt="Hero" className="w-full h-auto" />}
         </div>
       </div>
     </section>

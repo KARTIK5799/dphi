@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { hackathons } from '../../../public/data';
+import './Form.scss'; 
 
-const Form = ({ initialData, onSubmit }) => {
+const Form = () => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -8,14 +11,23 @@ const Form = ({ initialData, onSubmit }) => {
   const [image, setImage] = useState(null);
   const [level, setLevel] = useState('easy');
 
+  const { id } = useParams();
+  const challengeData = hackathons.find(challenge => challenge.id === parseInt(id));
+
   useEffect(() => {
-    if (initialData) {
-      setTitle(initialData.title || '');
-      setStartDate(initialData.startDate || '');
-      setEndDate(initialData.endDate || '');
-      setDescription(initialData.description || '');
-      setImage(initialData.image || null);
-      setLevel(initialData.level || 'easy');
+    if (challengeData) {
+    
+      const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0];
+      };
+
+      setTitle(challengeData.title || '');
+      setStartDate(challengeData.startDate ? formatDate(challengeData.startDate) : '');
+      setEndDate(challengeData.endDate ? formatDate(challengeData.endDate) : '');
+      setDescription(challengeData.description || '');
+      setImage(challengeData.image || null);
+      setLevel(challengeData.level || 'easy');
     } else {
       setTitle('');
       setStartDate('');
@@ -24,11 +36,24 @@ const Form = ({ initialData, onSubmit }) => {
       setImage(null);
       setLevel('easy');
     }
-  }, [initialData]);
+  }, [challengeData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ title, startDate, endDate, description, image, level });
+    
+    const formatDateForSubmission = (dateString) => {
+      const [year, month, day] = dateString.split('-');
+      return `${year}-${month}-${day}T00:00:00`;
+    };
+
+    console.log("Form submitted with data:", { 
+      title, 
+      startDate: formatDateForSubmission(startDate), 
+      endDate: formatDateForSubmission(endDate), 
+      description, 
+      image, 
+      level 
+    });
   };
 
   const handleImageUpload = (e) => {
@@ -37,16 +62,13 @@ const Form = ({ initialData, onSubmit }) => {
 
   return (
     <div className="bg-white h-full w-full flex flex-col justify-between items-start">
-      {/* Header */}
       <div className="bg-gray-200 w-full h-28 flex items-center px-12">
         <h1 className="text-2xl font-bold">
-          {initialData ? 'Edit Challenge' : 'Create Challenge'}
+          {challengeData ? 'Edit Challenge' : 'Create Challenge'}
         </h1>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4 p-12 w-full">
-        {/* Challenge Title */}
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             Challenge Title
@@ -61,7 +83,6 @@ const Form = ({ initialData, onSubmit }) => {
           />
         </div>
 
-        {/* Start Date */}
         <div>
           <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
             Start Date
@@ -76,7 +97,6 @@ const Form = ({ initialData, onSubmit }) => {
           />
         </div>
 
-        {/* End Date */}
         <div>
           <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
             End Date
@@ -91,7 +111,6 @@ const Form = ({ initialData, onSubmit }) => {
           />
         </div>
 
-        {/* Description */}
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">
             Description
@@ -106,11 +125,14 @@ const Form = ({ initialData, onSubmit }) => {
           />
         </div>
 
-        {/* Image Upload */}
         <div>
           <label htmlFor="image" className="block text-sm font-medium text-gray-700">
             Image
           </label>
+          {challengeData && <div className='w-[20rem] h-auto overflow-hidden p-2 bg-gray-200 rounded-lg max-h-[20rem]'>
+            <img src={challengeData.image} alt={challengeData.title} className='rounded'/>
+            <div id="img-2"></div>
+          </div>}
           <input
             type="file"
             id="image"
@@ -121,11 +143,12 @@ const Form = ({ initialData, onSubmit }) => {
             htmlFor="image"
             className="w-60 h-12 mt-2 cursor-pointer rounded-md border border-gray-300 bg-gray-200 flex justify-center items-center text-black"
           >
-            Upload <img src="src/assets/cloude.png" alt="cloud" className="ml-2" />
+            {challengeData ? "Update Image" : "Upload"}<span className="ml-4 material-symbols-outlined">
+cloud_upload
+</span>
           </label>
         </div>
 
-        {/* Level */}
         <div>
           <label htmlFor="level" className="block text-sm font-medium text-gray-700">
             Level
@@ -143,12 +166,11 @@ const Form = ({ initialData, onSubmit }) => {
           </select>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full max-w-xs bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
         >
-          {initialData ? 'Update Challenge' : 'Create Challenge'}
+          {challengeData ? 'Update Challenge' : 'Create Challenge'}
         </button>
       </form>
     </div>
