@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const OverviewSection = ({ challengeData }) => {
   const navigate = useNavigate();
+  const [isDeleted, setIsDeleted] = useState(false);
+  
+  const { description, id } = challengeData;
 
-  const { description,id } = challengeData;
+  const navigateToEdit = () => {
+    navigate(`/edit/${id}`);
+  };
 
- const navigateToEdit=()=>{
-  navigate(`/edit/${id}`);
- }
   const formatText = (text) => {
     if (!text) return [];
 
@@ -16,6 +18,21 @@ const OverviewSection = ({ challengeData }) => {
   };
 
   const paragraphs = formatText(description);
+
+  const handleDelete = async () => {
+    try {
+    
+      await new Promise((resolve) => setTimeout(resolve, 500)); 
+
+
+      setIsDeleted(true);
+
+      setTimeout(() => navigate('/'), 1000); 
+    } catch (error) {
+      console.error('Failed to delete the challenge:', error);
+      
+    }
+  };
 
   return (
     <div className="h-auto w-screen">
@@ -28,17 +45,26 @@ const OverviewSection = ({ challengeData }) => {
           <button onClick={navigateToEdit} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
             Edit
           </button>
-          <button className="px-4 py-2 border border-red-500 text-red-500 rounded-md hover:bg-red-50 transition">
+          <button onClick={handleDelete} className="px-4 py-2 border border-red-500 text-red-500 rounded-md hover:bg-red-50 transition">
             Delete
           </button>
         </div>
       </div>
       <div className="p-16">
-        {paragraphs.map((para, index) => (
-          <p key={index} className="mb-4">
-            {para}
-          </p>
-        ))}
+        {isDeleted ? (
+          <div className="p-4 bg-green-100 border border-green-300 text-green-800 rounded-md">
+            <h3 className="font-semibold">Challenge Deleted</h3>
+            <p>The challenge has been successfully deleted.</p>
+          </div>
+        ) : (
+          <>
+            {paragraphs.map((para, index) => (
+              <p key={index} className="mb-4">
+                {para}
+              </p>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
