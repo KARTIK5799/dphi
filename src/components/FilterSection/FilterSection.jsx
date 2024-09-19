@@ -60,7 +60,7 @@ const FilterSection = ({ onFilterChange }) => {
 
       <div className="flex gap-5 items-center">
         <div className="gap-5 flex flex-col">
-          <div className="w-[50rem] bg-white flex gap-2 px-3 text-black text-xl py-1 items-center justify-center rounded">
+          <div className="w-[60vw] md:w-[50rem] bg-white flex gap-2 px-3 text-black text-xl py-1 items-center justify-center rounded">
             <span className="material-symbols-outlined text-gray-400">search</span>
             <input
               type="text"
@@ -99,7 +99,7 @@ const FilterSection = ({ onFilterChange }) => {
           </button>
 
           {showFilter && (
-            <div className="bg-white absolute mt-2 w-80 p-4 rounded shadow-lg">
+            <div className="bg-white absolute left-[-5rem] md:left-0  mt-2 w-44 md:w-80 p-4 rounded shadow-lg">
               <h3 className="text-black text-lg font-semibold">Filters</h3>
               <hr className="my-2" />
 
@@ -198,7 +198,7 @@ const FilterSection = ({ onFilterChange }) => {
           )}
         </div>
       </div>
-      <div className="mt-2 max-w-[60%] flex gap-2 flex-wrap">
+      <div className="mt-2 max-w-[90vw] md:max-w-[60%] flex gap-2 flex-wrap">
             {statusFilter && <TagBullet label={`${statusFilter}`} onRemove={() => handleRemoveFilter('status')} />}
             {levelFilter && <TagBullet label={` ${levelFilter}`} onRemove={() => handleRemoveFilter('level')} />}
           </div>

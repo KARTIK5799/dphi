@@ -24,7 +24,7 @@ const Form = () => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [level, setLevel] = useState('easy');
-  const [status, setStatus] = useState('Active'); // Initialize with default value
+  const [status, setStatus] = useState('Active'); 
   const [message, setMessage] = useState('');
   const { id } = useParams();
   const { data, addOrUpdateChallenge } = useContext(DataContext);
@@ -50,7 +50,7 @@ const Form = () => {
   }, [challengeData]);
 
   useEffect(() => {
-    // Update status whenever startDate or endDate changes
+
     if (startDate && endDate) {
       setStatus(getStatus(startDate, endDate));
     }
@@ -72,7 +72,7 @@ const Form = () => {
       description,
       image: image || '',
       difficulty: level,
-      status // Use the computed status
+      status
     };
 
     addOrUpdateChallenge(newChallenge);
@@ -80,8 +80,8 @@ const Form = () => {
     setMessage(id ? 'Challenge updated successfully!' : 'Challenge created successfully!');
 
     setTimeout(() => {
-      navigate('/');  // Redirect to homepage
-    }, 2000);  // Delay for showing message
+      navigate('/'); 
+    }, 2000); 
   };
 
   const handleImageUpload = (e) => {
@@ -97,7 +97,7 @@ const Form = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 p-12 w-full">
-        {/* Form fields */}
+       
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             Challenge Title

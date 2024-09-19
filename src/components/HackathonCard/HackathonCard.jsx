@@ -1,4 +1,3 @@
-import React from 'react';
 import Timer from "../Timer/Timer";
 import { useNavigate } from 'react-router-dom';
 
@@ -11,11 +10,7 @@ const HackathonCard = ({ title, startDate, endDate, image, id, status }) => {
     ended: "bg-red-300 text-red-700",
   };
 
-  const difficultyColors = {
-    easy: "bg-green-100 text-green-800",
-    medium: "bg-yellow-100 text-yellow-800",
-    hard: "bg-red-100 text-red-800",
-  };
+  
 
   const handleChallengeDetailPage = () => {
     navigate(`/detail/${id}`);

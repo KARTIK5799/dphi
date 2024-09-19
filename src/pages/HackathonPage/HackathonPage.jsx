@@ -2,7 +2,7 @@ import HeroSection from "../../components/HeroSection/HeroSection";
 import "./HackathonPage.scss";
 import Participate from "../../components/Participate/Participate";
 import FeatureSection from "../../components/FeatureSection/FeatureSection";
-import FilterSection from "../../components/FilterSection/FilterSection";
+
 
 import FilterHackthon from "../../components/FilterHackthon/FilterHackthon";
 

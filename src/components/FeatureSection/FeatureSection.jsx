@@ -4,7 +4,7 @@ import challengeImage from '../../assets/challange.png';
 
 const FeatureSection = () => {
   return (
-    <section className="w-full bg-[#002A3B] min-h-[20vh] flex items-center justify-center py-8">
+    <section className="w-full h-auto bg-[#002A3B] min-h-[20vh] flex items-center justify-center py-8">
       <div className="container mx-auto px-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex items-center text-center min-w-32 md:border-r-4 justify-center gap-5 px-6 ">

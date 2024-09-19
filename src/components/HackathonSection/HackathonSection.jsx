@@ -14,7 +14,7 @@ const HackathonSection = ({ searchTerm, statusFilter, levelFilter }) => {
   });
 
   return (
-    <section className="bg-[#003145] h-auto w-screen flex flex-wrap items-center justify-center gap-10 p-[5rem]">
+    <section className="bg-[#003145] h-auto w-screen flex flex-wrap items-center justify-center gap-10  px-8 py-3  md:p-[5rem]">
       {filteredHackathons.length > 0 ? (
         filteredHackathons.map(hackathon => (
           <HackathonCard
