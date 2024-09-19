@@ -1,7 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { hackathons } from '../../../public/data';
-import './Form.scss'; 
+import { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { DataContext } from '../../context/DataContext';
+import './Form.scss';
+
+const getStatus = (startDate, endDate) => {
+  const now = new Date();
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (now < start) {
+    return 'upcoming';
+  } else if (now >= start && now <= end) {
+    return 'active';
+  } else {
+    return 'ended';
+  }
+};
 
 const Form = () => {
   const [title, setTitle] = useState('');
@@ -10,13 +24,16 @@ const Form = () => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [level, setLevel] = useState('easy');
-
+  const [status, setStatus] = useState('Active'); // Initialize with default value
+  const [message, setMessage] = useState('');
   const { id } = useParams();
-  const challengeData = hackathons.find(challenge => challenge.id === parseInt(id));
+  const { data, addOrUpdateChallenge } = useContext(DataContext);
+  const navigate = useNavigate();
+
+  const challengeData = data.find(challenge => challenge.id === parseInt(id));
 
   useEffect(() => {
     if (challengeData) {
-    
       const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toISOString().split('T')[0];
@@ -27,37 +44,48 @@ const Form = () => {
       setEndDate(challengeData.endDate ? formatDate(challengeData.endDate) : '');
       setDescription(challengeData.description || '');
       setImage(challengeData.image || null);
-      setLevel(challengeData.level || 'easy');
-    } else {
-      setTitle('');
-      setStartDate('');
-      setEndDate('');
-      setDescription('');
-      setImage(null);
-      setLevel('easy');
+      setLevel(challengeData.difficulty || 'easy');
+      setStatus(challengeData.status || 'Active');
     }
   }, [challengeData]);
 
+  useEffect(() => {
+    // Update status whenever startDate or endDate changes
+    if (startDate && endDate) {
+      setStatus(getStatus(startDate, endDate));
+    }
+  }, [startDate, endDate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const formatDateForSubmission = (dateString) => {
       const [year, month, day] = dateString.split('-');
       return `${year}-${month}-${day}T00:00:00`;
     };
 
-    console.log("Form submitted with data:", { 
-      title, 
-      startDate: formatDateForSubmission(startDate), 
-      endDate: formatDateForSubmission(endDate), 
-      description, 
-      image, 
-      level 
-    });
+    const newChallenge = {
+      id: id ? parseInt(id) : data.length + 1,
+      title,
+      startDate: formatDateForSubmission(startDate),
+      endDate: formatDateForSubmission(endDate),
+      description,
+      image: image || '',
+      difficulty: level,
+      status // Use the computed status
+    };
+
+    addOrUpdateChallenge(newChallenge);
+
+    setMessage(id ? 'Challenge updated successfully!' : 'Challenge created successfully!');
+
+    setTimeout(() => {
+      navigate('/');  // Redirect to homepage
+    }, 2000);  // Delay for showing message
   };
 
   const handleImageUpload = (e) => {
-    setImage(e.target.files[0]);
+    setImage(URL.createObjectURL(e.target.files[0]));
   };
 
   return (
@@ -69,6 +97,7 @@ const Form = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 p-12 w-full">
+        {/* Form fields */}
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             Challenge Title
@@ -129,10 +158,7 @@ const Form = () => {
           <label htmlFor="image" className="block text-sm font-medium text-gray-700">
             Image
           </label>
-          {challengeData && <div className='w-[20rem] h-auto overflow-hidden p-2 bg-gray-200 rounded-lg max-h-[20rem]'>
-            <img src={challengeData.image} alt={challengeData.title} className='rounded'/>
-            <div id="img-2"></div>
-          </div>}
+          {image && <img src={image} alt="Uploaded" className="w-40 h-40" />}
           <input
             type="file"
             id="image"
@@ -143,9 +169,7 @@ const Form = () => {
             htmlFor="image"
             className="w-60 h-12 mt-2 cursor-pointer rounded-md border border-gray-300 bg-gray-200 flex justify-center items-center text-black"
           >
-            {challengeData ? "Update Image" : "Upload"}<span className="ml-4 material-symbols-outlined">
-cloud_upload
-</span>
+            {challengeData ? "Update Image" : "Upload"}<span className="ml-4 material-symbols-outlined">cloud_upload</span>
           </label>
         </div>
 
@@ -173,6 +197,12 @@ cloud_upload
           {challengeData ? 'Update Challenge' : 'Create Challenge'}
         </button>
       </form>
+
+      {message && (
+        <div className="fixed bottom-4 right-4 bg-green-100 text-green-800 px-4 py-2 rounded-lg shadow-md">
+          {message}
+        </div>
+      )}
     </div>
   );
 };

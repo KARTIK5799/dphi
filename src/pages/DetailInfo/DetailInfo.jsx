@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import HeroSection from '../../components/HeroSection/HeroSection';
 import OverviewSection from '../../components/OverviewSection/OverviewSection';
-import { hackathons } from '../../../public/data'; 
+import { DataContext } from '../../context/DataContext'; 
 
 const DetailInfo = () => {
   const { id } = useParams();
+  const { data: hackathons } = useContext(DataContext);
+
   const challengeData = hackathons.find(challenge => challenge.id === parseInt(id));
 
   if (!challengeData) {

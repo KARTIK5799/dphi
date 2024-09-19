@@ -3,7 +3,8 @@ import "./HackathonPage.scss";
 import Participate from "../../components/Participate/Participate";
 import FeatureSection from "../../components/FeatureSection/FeatureSection";
 import FilterSection from "../../components/FilterSection/FilterSection";
-import HackathonSection from "../../components/HackathonSection/HackathonSection";
+
+import FilterHackthon from "../../components/FilterHackthon/FilterHackthon";
 
 const HackathonPage = () => {
   return (
@@ -11,8 +12,8 @@ const HackathonPage = () => {
       <HeroSection/>
       <FeatureSection />
       <Participate />
-      <FilterSection />
-      <HackathonSection />
+    
+      <FilterHackthon />
     </div>
   );
 };

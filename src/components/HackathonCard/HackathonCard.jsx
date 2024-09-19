@@ -2,7 +2,7 @@ import React from 'react';
 import Timer from "../Timer/Timer";
 import { useNavigate } from 'react-router-dom';
 
-const HackathonCard = ({ title, startDate, endDate, image, difficulty, id }) => {
+const HackathonCard = ({ title, startDate, endDate, image, id, status }) => {
   let navigate = useNavigate();
 
   const statusColors = {
@@ -16,22 +16,6 @@ const HackathonCard = ({ title, startDate, endDate, image, difficulty, id }) => 
     medium: "bg-yellow-100 text-yellow-800",
     hard: "bg-red-100 text-red-800",
   };
-
-  const getStatus = () => {
-    const now = new Date();
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    if (now < start) {
-      return 'upcoming';
-    } else if (now >= start && now <= end) {
-      return 'active';
-    } else {
-      return 'ended';
-    }
-  };
-
-  const status = getStatus();
 
   const handleChallengeDetailPage = () => {
     navigate(`/detail/${id}`);
