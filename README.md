@@ -26,7 +26,8 @@ The home page is the landing page of the application where all challenges are di
 - **`ChallengeCard`:** A child component of `ChallengeList` that displays individual challenge details like the title, dates, and status.
 
 ### Screenshot:
-![Home Page](path_to_home_page_image)
+![screencapture-localhost-5173-2024-09-19-18_35_07](https://github.com/user-attachments/assets/4fd19ad8-9400-4b40-b164-92ceed57a5b4)
+
 
 ---
 
@@ -42,7 +43,8 @@ The Challenge Detail page displays all the information about a selected challeng
 - **`EditButton`:** A button that navigates the user to the Edit Challenge page to update the details of the challenge.
 
 ### Screenshot:
-![Detail Page](path_to_detail_page_image)
+![screencapture-localhost-5173-detail-1-2024-09-19-18_49_22](https://github.com/user-attachments/assets/ae287d16-cd51-4fc7-80fc-5302f0bb7dc9)
+
 
 ---
 
@@ -64,7 +66,8 @@ The form page allows users to either create a new challenge or edit an existing 
 - **`handleSubmit`:** Validates the form data and submits the new or updated challenge to the context.
 
 ### Screenshot:
-![Form Page](path_to_form_page_image)
+![screencapture-localhost-5173-edit-2-2024-09-19-18_34_41](https://github.com/user-attachments/assets/5915ac9d-ca98-44e0-83ec-62973559dfd0)
+
 
 ---
 
