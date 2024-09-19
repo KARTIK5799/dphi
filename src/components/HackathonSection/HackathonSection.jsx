@@ -5,7 +5,7 @@ import { DataContext } from '../../context/DataContext';
 const HackathonSection = ({ searchTerm, statusFilter, levelFilter }) => {
   const { data: hackathons } = useContext(DataContext);
 
-  // Apply filters
+
   const filteredHackathons = hackathons.filter(hackathon => {
     const matchesSearch = searchTerm.trim() === '' || hackathon.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === null || hackathon.status === statusFilter;

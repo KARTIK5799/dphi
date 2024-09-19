@@ -47,6 +47,13 @@ const FilterSection = ({ onFilterChange }) => {
     }
   };
 
+  const handleResetFilters = () => {
+    setSearchTerm('');
+    setStatusFilter(null);
+    setLevelFilter(null);
+    onFilterChange('', null, null);
+  };
+
   return (
     <section className="min-h-[324px] w-screen flex flex-col gap-5 text-white bg-[#002A3B] justify-center items-center">
       <h2 className="text-3xl">Explore Challenges</h2>
@@ -57,7 +64,7 @@ const FilterSection = ({ onFilterChange }) => {
             <span className="material-symbols-outlined text-gray-400">search</span>
             <input
               type="text"
-              className="w-full outline-none text-black"
+              className="w-full outline-none text-gray-600"
               placeholder="Search"
               value={searchTerm}
               onChange={handleSearchChange}
@@ -68,12 +75,19 @@ const FilterSection = ({ onFilterChange }) => {
             {isInputFocused && searchTerm.trim() !== '' && (
               <button
                 onClick={() => onFilterChange(searchTerm, statusFilter, levelFilter)}
-                className="text-black ml-2"
+                className="text-gray-600 text-sm te ml-2 flex justify-center items-center"
               >
+                <span className="text-lg mr-2 material-symbols-outlined">
+                  keyboard_return
+                </span> 
                 Enter
               </button>
             )}
           </div>
+
+          
+
+         
         </div>
 
         <div className="relative">
@@ -126,12 +140,14 @@ const FilterSection = ({ onFilterChange }) => {
                     <input
                       type="radio"
                       name="status"
-                      value="past"
-                      checked={statusFilter === 'past'}
+                      value="ended"
+                      checked={statusFilter === 'ended'}
                       onChange={handleStatusChange}
                     />
-                    <span>Past</span>
+                    <span>Ended</span>
                   </label>
+
+                  
                 </div>
               </div>
 
@@ -171,26 +187,21 @@ const FilterSection = ({ onFilterChange }) => {
                     <span>Hard</span>
                   </label>
                 </div>
-              </div>
-
-              <div className="flex gap-2 mt-4">
-                {statusFilter && (
-                  <TagBullet 
-                    text={statusFilter}
-                    onRemove={() => handleRemoveFilter('status')}
-                  />
-                )}
-                {levelFilter && (
-                  <TagBullet 
-                    text={levelFilter}
-                    onRemove={() => handleRemoveFilter('level')}
-                  />
-                )}
+                <button
+            onClick={handleResetFilters}
+            className="mt-2 px-4 py-2 bg-red-500 text-white rounded"
+          >
+            Reset Filters
+          </button>
               </div>
             </div>
           )}
         </div>
       </div>
+      <div className="mt-2 max-w-[60%] flex gap-2 flex-wrap">
+            {statusFilter && <TagBullet label={`${statusFilter}`} onRemove={() => handleRemoveFilter('status')} />}
+            {levelFilter && <TagBullet label={` ${levelFilter}`} onRemove={() => handleRemoveFilter('level')} />}
+          </div>
     </section>
   );
 };
